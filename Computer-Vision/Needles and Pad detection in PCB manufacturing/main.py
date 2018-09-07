@@ -87,16 +87,23 @@ def get_needles(gray):
 
 def main():
 
-    perX = 50
-    perY = 80
+    perX = 50       #expected approximate x location of the pad in %ge from the left edge of the image 
+    perY = 80       #expected approximate y location of the pad in %ge from the top edge of the image
+    
     image = cv2.imread('9.jpg')
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    #step-1 Get ROI based on expected location of pad
     masked_pad = get_masked_pad(gray, perX, perY)
+    
+    #step-2 Check whether image is OK (no blurr no motion)
     status = check_blur(masked_pad)
     if(status == 1):
         print("Good")
     else:
         print('bad')
+        
+        
     needle1x, needle1y, needle2x, needle2y = get_needles(gray)
     print(needle1x, needle1y, needle2x, needle2y)
     cv2.circle(image, (needle1x, needle1y), 3, (0), 2)
@@ -106,14 +113,16 @@ def main():
     print(center)
     if(center[0] is not None and center[1] is not None):
         cv2.circle(image, center, 3, (0), 2)
-    # else:
-    #     print('pad not found')
-    # # show the image
+    else:
+        print('pad not found')
+    
     dict = {'needle1_x': needle1x, 'needle1_y': needle1y, 'needle2_x':
             needle2x, 'needle2_y': needle2y, 'pad_x': center[0], 'pad_y':
             center[1], 'status': status}
 
     print(dict)
+    
+    # show the image
     cv2.imshow("Image", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
