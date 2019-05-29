@@ -1,0 +1,14 @@
+Requirements
+
+pip3 install random-username
+pip3 install python-anticaptcha
+pip3 install selenium
+
+Note:
+set iteration veriable for required enteries.
+log.csv will keep record of enteries
+
+Intentionally put some sleep commands to behave as a human
+when captcha solution is wrong from API side then it will say wrong capthca solution
+simply wait for next iteration
+
